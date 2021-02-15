@@ -4,5 +4,17 @@ class GamesController < ApplicationController
   end
 
   def score
+    @result = "correct"
+    @letters = params[:letters].split(" ")
+    @word = params[:word].upcase
+
+    @word.each_char.with_index do |char, index|
+      if @letters.include? char
+        @letters.slice(index, 1)
+      else
+        @result = "Invalid letters"
+      end
+    end
   end
+  
 end
