@@ -1,3 +1,6 @@
+require 'open-uri'
+require 'json'
+
 class GamesController < ApplicationController
   def new
     @letters = ("A".."Z").to_a.sample(10)
@@ -14,7 +17,13 @@ class GamesController < ApplicationController
       else
         @result = "Invalid letters"
       end
+      url ="https://wagon-dictionary.herokuapp.com/#{@word}"
+      json_string = open(url).read
+      json_hash = JSON.parse(json_string)
+      unless json_hash["found"]
+        @result = "Word not in dictionary"
+      end
     end
   end
-  
+
 end
